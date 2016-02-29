@@ -1,44 +1,60 @@
 package model;
 
 
-import java.sql.Timestamp;
-import java.util.Calendar;
-
 
 public class Transaction {
-	private int id;
-	private String todo_message;
-	private Timestamp timestamp;
 	
+	private int id;
+	private int customer_id;
+	private int room_number;
+	private double amount;
+	private int cc_number;
+	private int expiration_date;
+	
+	// getter methods
 	public int getId() {
 		return id;
 	}
+	
+	public int getCustomerId() {
+		return customer_id;
+	}
+	
+	public int getRoomNumber() {
+		return room_number;
+	}
+	
+	public double getAmount() {
+		return amount;
+	}
+	
+	public int getCCNumber() {
+		return cc_number;
+	}
+	
+	public int getExpDate() {
+		return expiration_date;
+	}
+
+	// setter methods
 	public void setId(int id) {
 		this.id = id;
 	}
-	public String getMessage() {
-		return todo_message;
-	}
-	public void setToDoMessage(String todo_message) {
-		this.todo_message = todo_message;
-	}
-	public Timestamp getTimestamp() {
-		return timestamp;
-	}
-	public void setTimestamp() {
-		// 1) create a java calendar instance
-		Calendar calendar = Calendar.getInstance();
-		 
-		// 2) get a java.util.Date from the calendar instance.
-		//    this date will represent the current instant, or "now".
-		java.util.Date now = calendar.getTime();
-		 
-		// 3) a java current time (now) instance
-		java.sql.Timestamp currentTimestamp = new java.sql.Timestamp(now.getTime());
-		this.timestamp = currentTimestamp;
+	
+	public void setCustId(int customer_id) {
+		this.customer_id = customer_id;
 	}
 	
-	public void setTimestamp(Timestamp timestamp) {
-		this.timestamp = timestamp;
+	public void setAmount(double amount) {
+		this.amount = amount;
 	}
+
+	public void setCCNum(int cc_number) {
+		this.cc_number = cc_number;
+	}
+	
+	public void setExpDate(int expiration_date) {
+		this.expiration_date = expiration_date;
+	}
+
 }

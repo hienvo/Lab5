@@ -1,41 +1,44 @@
 package model;
-import java.sql.Timestamp;
-import java.util.Calendar;
 
 public class Room {
-	private int id;
-	private String todo_message;
-	private Timestamp timestamp;
 	
-	public int getId() {
-		return id;
-	}
-	public void setId(int id) {
-		this.id = id;
-	}
-	public String getMessage() {
-		return todo_message;
-	}
-	public void setToDoMessage(String todo_message) {
-		this.todo_message = todo_message;
-	}
-	public Timestamp getTimestamp() {
-		return timestamp;
-	}
-	public void setTimestamp() {
-		// 1) create a java calendar instance
-		Calendar calendar = Calendar.getInstance();
-		 
-		// 2) get a java.util.Date from the calendar instance.
-		//    this date will represent the current instant, or "now".
-		java.util.Date now = calendar.getTime();
-		 
-		// 3) a java current time (now) instance
-		java.sql.Timestamp currentTimestamp = new java.sql.Timestamp(now.getTime());
-		this.timestamp = currentTimestamp;
+	private int room_number;
+	private String type;
+	private double price;
+	private String current_occupant;
+	
+	// getter methods
+	public int getRoomNumber() {
+		return room_number;
 	}
 	
-	public void setTimestamp(Timestamp timestamp) {
-		this.timestamp = timestamp;
+	public String getRoomType() {
+		return type;
 	}
+	
+	public double getRoomPrice() {
+		return price;
+	}
+	
+	public String getCurrentOccupant() {
+		return current_occupant;
+	}
+
+	// setter methods
+	public void setRoomNumber(int room_number) {
+		this.room_number = room_number;
+	}
+
+	public void setRoomType(String type) {
+		this.type = type;
+	}
+	
+	public void setRoomPrice(double price) {
+		this.price = price;
+	}
+	
+	public void setOccupant(String current_occupant) {
+		this.current_occupant = current_occupant;
+	}
+
 }
