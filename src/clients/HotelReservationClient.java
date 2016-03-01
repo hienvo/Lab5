@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.sql.Connection;
 import java.sql.Timestamp;
@@ -106,7 +107,7 @@ public class HotelReservationClient {
 				System.out.println();
 				try {
 					System.out.println("Making GET call");
-					request = "http://localhost:8080/PA1/Reservations";
+					request = "http://localhost:3306/PA1/Reservations";
 					
 					switch (choice) {
 					case 1: 
@@ -128,11 +129,13 @@ public class HotelReservationClient {
 						String checkin_date = s.nextLine();
 						System.out.println("Please enter the customer Check-out Date: ");
 						String checkout_date = s.nextLine();
-						params = "?choice=" + Integer.toString(choice) + "&first_name=" + first_name + "&last_name=" + last_name +
-								"&phone_number=" + phone_number + "&billing_address=" + billing_address 
-								+ "&billing_city=" + billing_city + "&billing_state=" + billing_state
-								+ "&billing_zip=" + billing_zip + "&checkin_date=" + checkin_date 
-								+ "&checkout_date=" + checkout_date; 
+						params = "choice=" + URLEncoder.encode(Integer.toString(choice), "UTF-8") + 
+								"&first_name=" + URLEncoder.encode(first_name, "UTF-8") + "&last_name=" 
+								+ URLEncoder.encode(last_name, "UTF-8") + "&phone_number=" 
+								+ URLEncoder.encode(phone_number, "UTF-8") + "&billing_address=" + URLEncoder.encode(billing_address, "UTF-8") 
+								+ "&billing_city=" + URLEncoder.encode(billing_city, "UTF-8") + "&billing_state=" + URLEncoder.encode(billing_state, "UTF-8")
+								+ "&billing_zip=" + URLEncoder.encode(billing_zip, "UTF-8") + "&checkin_date=" + URLEncoder.encode(checkin_date, "UTF-8") 
+								+ "&checkout_date=" + URLEncoder.encode(checkout_date, "UTF-8"); 
 
 						break;
 					case 2:
@@ -172,11 +175,16 @@ public class HotelReservationClient {
 				};
 				    request = request + params;
 					URL    url            = new URL( request );
-					HttpURLConnection conn= (HttpURLConnection) url.openConnection();   
+					//String charset = java.nio.charset.StandardCharsets.UTF_8.name();
+					//URLConnection connection = new URL(request + "?" + params).openConnection();
+					//connection.setRequestProperty("Accept-Charset", charset);
+					//InputStream response = connection.getInputStream();
+
+					HttpURLConnection conn = (HttpURLConnection) url.openConnection();   
 					
 					conn.setInstanceFollowRedirects( false );
 					conn.setRequestMethod( "GET" );
-					conn.setUseCaches( false );
+					conn.setUseCaches( false );				
 					
 					BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
 					String next_record = null;

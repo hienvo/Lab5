@@ -77,7 +77,7 @@ public class MysqlConnector {
 	
 	public Connection getConnection() {
 		try {
-			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:8080/?" + 
+			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/?" + 
 					"user=" + dbUser + "&password=" + dbPassword + "&useSSL=false");
 			//System.out.println("Got Mysql database connection");
 			return conn;
@@ -121,7 +121,7 @@ public class MysqlConnector {
 					+ "room_number 			INT NOT NULL AUTO_INCREMENT, "
 					+ "type 				VARCHAR(100) NOT NULL, "
 					+ "price 				FLOAT NOT NULL, "
-					+ "current_occupant		INT"	
+					+ "current_occupant		INT,"	
 					+ "PRIMARY KEY (room_number), " 
 					+ "FOREIGN KEY (current_occupant) REFERENCES customer(id)" + ")");
 			createTable2.executeUpdate();

@@ -21,7 +21,7 @@ import servlets.MysqlConnector;
  */
 @WebServlet(name = "HotelReservationServlet",
 description = "This is my first annotated servlet",
-urlPatterns = {"/HotelReservationServlet","/PA1/Reservations"})
+urlPatterns = {"/Reservations"})
 public class HotelReservationServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -48,17 +48,18 @@ public class HotelReservationServlet extends HttpServlet {
 
         // Do required initialization
     	
-    }
-    
-	/**
+    };
+
+    /**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		Scanner s = new Scanner(System.in);  // Reading from System.in
+		//Scanner s = new Scanner(System.in);  // Reading from System.in
 		String dbName = "Hotel_Reservation_System";
     	MysqlConnector connector;
-    	connector = new MysqlConnector(s, dbName);
+    	connector = new MysqlConnector(dbName);
 		//Connection conn = connector.getConnection();
 		
 		try {
@@ -133,6 +134,7 @@ public class HotelReservationServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String param = request.getParameter("param2");
 		doGet(request,response);
+		
 	}
 */
 }
