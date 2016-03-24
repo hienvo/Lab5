@@ -26,6 +26,7 @@ description = "This is my first annotated servlet",
 urlPatterns = {"/todoServlet","/todoS"})
 public class todoServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	ConcurrentHashMap<String, String[]> myMessage;
     Scanner sc = new Scanner(System.in);
     /**
      * @see HttpServlet#HttpServlet()
@@ -40,42 +41,95 @@ public class todoServlet extends HttpServlet {
     public void init() throws ServletException
     {
         // Do required initialization
-        message = "Hello World";
+        System.out.println("Welcome to my servlet");
     }
     
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	Integer choice = Integer.parseInt(request.getParameter("choice"));
+	PrintWriter out = response.getWriter();
+	
+	try {
 		
+		switch (choice) {
+		case 2:
+				
+			if(!myMessage.isEmpty())
+			{
+				Integer id_get = Integer.parseInt(request.getParameter("id_get"));
+				System.out.println("GET [i]: Retrives and displays the todomessage when it was post");		
+				System.out.println("Enter the id to get the message at that id");		
+				String[] temp_get={"",""};
+				boolean flag = false;
+				for (String key : myMessage.keySet() ) {
+					temp_get = myMessage.get(key);
+					if(id_get.equals(key))
+					{
+						out.println(" ID: " + key +" Message: "+ temp_get[0] +" Date: "+ temp_get[1]);				
+						flag = true;
+						break;
+					}
+													
+				}		
+				
+				if (flag == false) {
+					System.out.println("Invalid ID");
+				}
+			}
+			else
+			{
+				System.out.println("concurrentHashMap is empty!");
+			}
+			System.out.println("                  Menu                 ");	
+	    	System.out.println("1. POST[id] [todomessage] 2. GET [id] 3. GET LIST ;4. DELETE [id] 5. PUT [id] 6. Exit");
+			break;
+	
+		case 3:
+			
+			System.out.println("GET LIST: Display all the IDs and messages");						
+			String[] temp={"",""};
+			List<String> tempList = new ArrayList<String>();
+			int count = 0;
+			for ( String key : myMessage.keySet() ) {
+			    temp = myMessage.get(key);
+			    tempList.add(temp[0]);
+			    out.println(" ID: " + key +" todoMessage: " + tempList.get(count));				    
+			    count=count+1;
+			}
+			System.out.println("                  Menu                 ");	
+	    	System.out.println("1. POST[id] [todomessage] 2. GET [id] 3. GET LIST ;4. DELETE [id] 5. PUT [id] 6. Exit");
+			break;
+			
+			}
+	}
+			 catch (Exception e) {
+				e.printStackTrace();
+
+			};
+		
+			
+	    
+
+	}
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
+	
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		java.util.Date date= new java.util.Date();
-//		new Timestamp(date.getTime());
-//		
-//		String timeStamp = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(date);
-		//boolean loopMenu = false;
-//		boolean menuInput = false;
+		Integer choice = Integer.parseInt(request.getParameter("choice"));
+		PrintWriter out = response.getWriter();
 		boolean optionInput = false;
 		String timeStamp;
-		System.out.println("                  Menu                 ");		
-		System.out.println("Enter your option: ");
-		System.out.println("1. POST[id] [todomessage] ");
-		System.out.println("2. GET [id]");
-		System.out.println("3. GET LIST");
-		System.out.println("4. DELETE [id]");
-		System.out.println("5. PUT [id]");
-		System.out.println("6. Exit");
 		
-		
-		ConcurrentHashMap<String, String[]> myMessage;
-		myMessage = new ConcurrentHashMap<String, String[]>();
 		while(!optionInput)
 		{
-			int choice = sc.nextInt();
 			switch (choice) {
 		
 			case 1: 
-				System.out.println("Enter input [i] and [todo_message]");
-				
+		
 				new Timestamp(date.getTime());
 				String id = sc.next();
 				
@@ -86,7 +140,7 @@ public class todoServlet extends HttpServlet {
 				timeStamp = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(date);
 				todo[1] = timeStamp;
 				timeStamp = "";
-//				myMessage = new ConcurrentHashMap<String, String>();
+
 				
 				
 				boolean flag = false;
@@ -109,62 +163,7 @@ public class todoServlet extends HttpServlet {
 			    	break;
 			    }
 				
-//				response.setContentType("text/html");
-//				PrintWriter out = response.getWriter();
-//			    out.println("<h1>" + myMessage +" "+ date + "</h1>");
-			    
-	//		    String param = request.getParameter("param3");
-	//		    doGet(request,response);
 			    break;
-		    
-			case 2:
-				if(!myMessage.isEmpty())
-				{
-					System.out.println("GET [i]: Retrives and displays the todomessage when it was post");		
-					System.out.println("Enter the id to get the message at that id");
-					String id_get = sc.next();			
-					String[] temp_get={"",""};
-					
-					flag = false;
-					for (String key : myMessage.keySet() ) {
-						temp_get = myMessage.get(key);
-						if(id_get.equals(key))
-						{
-							System.out.println(" ID: " + key +" Message: "+ temp_get[0] +" Date: "+ temp_get[1]);				
-							flag = true;
-							break;
-						}
-														
-					}		
-					
-					if (flag == false) {
-						System.out.println("Invalid ID");
-					}
-				}
-				else
-				{
-					System.out.println("concurrentHashMap is empty!");
-				}
-				System.out.println("                  Menu                 ");	
-		    	System.out.println("1. POST[id] [todomessage] 2. GET [id] 3. GET LIST ;4. DELETE [id] 5. PUT [id] 6. Exit");
-				break;
-			
-			case 3:
-				
-				System.out.println("GET LIST: Display all the IDs and messages");						
-				String[] temp={"",""};
-				List<String> tempList = new ArrayList<String>();
-				int count = 0;
-				for ( String key : myMessage.keySet() ) {
-				    temp = myMessage.get(key);
-				    tempList.add(temp[0]);
-				    System.out.println(" ID: " + key +" todoMessage: " + tempList.get(count));				    
-				    count=count+1;
-				}
-				System.out.println("                  Menu                 ");	
-		    	System.out.println("1. POST[id] [todomessage] 2. GET [id] 3. GET LIST ;4. DELETE [id] 5. PUT [id] 6. Exit");
-				break;
-				
 				
 			case 4:
 				if(!myMessage.isEmpty())
@@ -249,25 +248,11 @@ public class todoServlet extends HttpServlet {
 	
 		}
 	
-		response.setContentType("text/html");
-		PrintWriter out = response.getWriter();
-		String[] temp={"",""};
-		for ( String key : myMessage.keySet() ) {
-		    System.out.println( key );
-		    temp = myMessage.get(key);
-		    out.println("<h1>" + key +" "+ temp[0] +" "+ temp[1] + "</h1>");
-		}
 		
-	    
-	}
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
+		
+		
 	
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String param = request.getParameter("param3");
-		doGet(request,response);
-		
+		}
+	
 	}
 
-}
